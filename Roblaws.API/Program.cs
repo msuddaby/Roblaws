@@ -84,7 +84,7 @@ namespace JWTAuthTemplate
 
                 builder.Services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new() { Title = "JWTAuthTemplate", Version = "v1"});
+                    c.SwaggerDoc("v1", new() { Title = "Roblaws.API", Version = "v1"});
                     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                     {
                         In = ParameterLocation.Header,

@@ -3,7 +3,6 @@ using System;
 using JWTAuthTemplate.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JWTAuthTemplate.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230615212740_RoleFix")]
-    partial class RoleFix
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace JWTAuthTemplate.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -51,7 +48,7 @@ namespace JWTAuthTemplate.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +73,7 @@ namespace JWTAuthTemplate.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -149,7 +146,7 @@ namespace JWTAuthTemplate.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -174,7 +171,7 @@ namespace JWTAuthTemplate.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -196,7 +193,7 @@ namespace JWTAuthTemplate.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUserRole", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUserRole", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("text");
@@ -211,7 +208,7 @@ namespace JWTAuthTemplate.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUserToken", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUserToken", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("text");
@@ -230,42 +227,42 @@ namespace JWTAuthTemplate.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationRoleClaim", b =>
                 {
-                    b.HasOne("JWTAuthTemplate.Models.Identity.ApplicationRole", null)
+                    b.HasOne("Roblaws.API.Models.Identity.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUserClaim", b =>
                 {
-                    b.HasOne("JWTAuthTemplate.Models.Identity.ApplicationUser", null)
+                    b.HasOne("Roblaws.API.Models.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUserLogin", b =>
                 {
-                    b.HasOne("JWTAuthTemplate.Models.Identity.ApplicationUser", null)
+                    b.HasOne("Roblaws.API.Models.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUserRole", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUserRole", b =>
                 {
-                    b.HasOne("JWTAuthTemplate.Models.Identity.ApplicationRole", "Role")
+                    b.HasOne("Roblaws.API.Models.Identity.ApplicationRole", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("JWTAuthTemplate.Models.Identity.ApplicationUser", "User")
+                    b.HasOne("Roblaws.API.Models.Identity.ApplicationUser", "User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,21 +273,21 @@ namespace JWTAuthTemplate.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUserToken", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUserToken", b =>
                 {
-                    b.HasOne("JWTAuthTemplate.Models.Identity.ApplicationUser", null)
+                    b.HasOne("Roblaws.API.Models.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationRole", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("JWTAuthTemplate.Models.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("Roblaws.API.Models.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("Roles");
                 });
