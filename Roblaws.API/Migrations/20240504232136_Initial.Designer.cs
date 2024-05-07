@@ -3,6 +3,7 @@ using System;
 using JWTAuthTemplate.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JWTAuthTemplate.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240504232136_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -407,7 +410,7 @@ namespace JWTAuthTemplate.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("DbMemberOnlyPrimaryPriceId")
+                    b.Property<int>("DbMemberOnlyPrimaryPriceId")
                         .HasColumnType("integer");
 
                     b.Property<int>("DbPrimaryPriceId")
@@ -657,7 +660,9 @@ namespace JWTAuthTemplate.Migrations
                 {
                     b.HasOne("JWTAuthTemplate.Models.Loblaws.DbMemberOnlyPrimaryPrice", "MemberOnlyPrimaryPrice")
                         .WithOne("Offer")
-                        .HasForeignKey("JWTAuthTemplate.Models.Loblaws.DbOffer", "DbMemberOnlyPrimaryPriceId");
+                        .HasForeignKey("JWTAuthTemplate.Models.Loblaws.DbOffer", "DbMemberOnlyPrimaryPriceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("JWTAuthTemplate.Models.Loblaws.DbPrimaryPrice", "PrimaryPrice")
                         .WithOne("Offer")

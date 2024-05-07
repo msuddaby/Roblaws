@@ -1,7 +1,10 @@
 
 using System.Text;
+using Hangfire;
+using Hangfire.PostgreSql;
 using JWTAuthTemplate.Context;
 using JWTAuthTemplate.Models.Identity;
+using JWTAuthTemplate.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -39,8 +42,7 @@ namespace JWTAuthTemplate
             });
 
             using (var context = new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>()
-                       .UseNpgsql(connectionString).Options))
-            {
+                       .UseNpgsql(connectionString).Options)) {
                 context.Database.Migrate();
             }
 
@@ -49,6 +51,8 @@ namespace JWTAuthTemplate
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.AddScoped<ScrapingService>();
+            
             //Set up JWT
             builder.Services.AddAuthentication(opts =>
                 {
@@ -75,6 +79,15 @@ namespace JWTAuthTemplate
                 });
 
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddMvc();
+
+            builder.Services.AddHangfire(config => {
+                config.UsePostgreSqlStorage(x => x.UseNpgsqlConnection(connectionString));
+            });
+
+            builder.Services.AddHangfireServer();
+
+            builder.Services.AddHostedService<DailyUpdateService>();
 
 
             if (builder.Environment.IsDevelopment())
@@ -123,14 +136,24 @@ namespace JWTAuthTemplate
                 app.UseSwaggerUI();
             }
 
+            app.UseRouting();
 
             //app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
+    
 
+            //app.MapControllers();
 
-            app.MapControllers();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.Run();
         }
